@@ -1,0 +1,227 @@
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Exercícios Resolvidos</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Exercícios Resolvidos</h1>
+
+            <!-- Exercício 1: Cálculo da SOMA -->
+            <section>
+                <h2>Exercício 1</h2>
+                <p>
+                    <strong>Pergunta:</strong> Observe o trecho de código abaixo:
+                    <pre>
+    int INDICE = 13, SOMA = 0, K = 0;
+    while (K < INDICE) {
+        K = K + 1;
+        SOMA = SOMA + K;
+    }
+    print(SOMA);
+                    </pre>
+                    Ao final do processamento, qual será o valor da variável SOMA?
+                </p>
+                <p>
+                    <strong>Resolução:</strong> O valor da variável SOMA ao final do processamento é:
+                    <span id="resultado-soma"></span>
+                </p>
+                <button onclick="mostrarCodigo('codigo-ex1')">Mostrar Código</button>
+                <pre id="codigo-ex1" class="codigo" style="display: none;">
+    function calcularSoma() {
+        let INDICE = 13;
+        let SOMA = 0;
+        let K = 0;
+
+        while (K < INDICE) {
+            K = K + 1;
+            SOMA = SOMA + K;
+        }
+
+        document.getElementById("resultado-soma").textContent = SOMA;
+    }
+                </pre>
+            </section>
+
+            <!-- Exercício 2: Verificação de número na sequência de Fibonacci -->
+            <section>
+                <h2>Exercício 2</h2>
+                <p>
+                    <strong>Pergunta:</strong> Dado a sequência de Fibonacci, onde se inicia por 0 e 1 e o próximo valor sempre será a soma dos 2 valores anteriores (exemplo: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34...), escreva um programa onde, informado um número, ele calcule a sequência de Fibonacci e retorne uma mensagem avisando se o número informado pertence ou não à sequência.
+                </p>
+                <p>
+                    <strong>Resolução:</strong>
+                    <label for="numero-fibonacci">Informe um número:</label>
+                    <input type="number" id="numero-fibonacci" placeholder="Digite um número">
+                    <button onclick="verificarFibonacci()">Verificar</button>
+                    <span id="resultado-fibonacci"></span>
+                </p>
+                <button onclick="mostrarCodigo('codigo-ex2')">Mostrar Código</button>
+                <pre id="codigo-ex2" class="codigo" style="display: none;">
+    function verificarFibonacci() {
+        const input = document.getElementById("numero-fibonacci").value;
+        const numero = parseFloat(input);
+
+        // Verifica se o número é inteiro e não negativo
+        if (!Number.isInteger(numero) || numero < 0) {
+            document.getElementById("resultado-fibonacci").textContent =
+                `O número ${input} não pertence à sequência de Fibonacci.`;
+            return;
+        }
+
+        function isFibonacci(n) {
+            // Caso especial para 0, que é o primeiro termo da sequência
+            if (n === 0) return true;
+
+            let a = 0, b = 1;
+            while (b < n) {
+                [a, b] = [b, a + b];
+            }
+            return b === n;
+        }
+
+        const resultado = isFibonacci(numero)
+            ? `O número ${numero} pertence à sequência de Fibonacci.`
+            : `O número ${numero} não pertence à sequência de Fibonacci.`;
+
+        document.getElementById("resultado-fibonacci").textContent = resultado;
+    }
+                </pre>
+            </section>
+
+            <!-- Exercício 3: Análise de faturamento diário -->
+            <section>
+                <h2>Exercício 3</h2>
+                <p>
+                    <strong>Pergunta:</strong> Dado um vetor que guarda o valor de faturamento diário de uma distribuidora, faça um programa que calcule e retorne:
+                    <ul>
+                        <li>O menor valor de faturamento ocorrido em um dia do mês;</li>
+                        <li>O maior valor de faturamento ocorrido em um dia do mês;</li>
+                        <li>Número de dias no mês em que o valor de faturamento diário foi superior à média mensal.</li>
+                    </ul>
+                </p>
+                <p>
+                    <strong>Resolução:</strong>
+                    <ul>
+                        <li>Menor valor de faturamento: <span id="menor-faturamento"></span></li>
+                        <li>Maior valor de faturamento: <span id="maior-faturamento"></span></li>
+                        <li>Número de dias acima da média: <span id="dias-acima-media"></span></li>
+                    </ul>
+                </p>
+                <button onclick="mostrarCodigo('codigo-ex3')">Mostrar Código</button>
+                <pre id="codigo-ex3" class="codigo" style="display: none;">
+    function analisarFaturamento() {
+        const faturamento = [
+            22174.1664, 24537.6698, 26139.6134, 0.0, 0.0, 26742.6612, 0.0, 42889.2258,
+            46251.174, 11191.4722, 0.0, 0.0, 3847.4823, 373.7838, 2659.7563, 48924.2448,
+            18419.2614, 0.0, 0.0, 35240.1826, 43829.1667, 18235.6852, 4355.0662, 13327.1025, 0.0, 0.0, 25681.8318, 1718.1221, 13220.495, 8414.61
+        ];
+
+        // Removendo dias sem faturamento
+        const faturamentoFiltrado = faturamento.filter(valor => valor > 0);
+
+        // Calculando menor e maior valor
+        const menor = Math.min(...faturamentoFiltrado);
+        const maior = Math.max(...faturamentoFiltrado);
+
+        // Calculando a média
+        const media = faturamentoFiltrado.reduce((acc, val) => acc + val, 0) / faturamentoFiltrado.length;
+
+        // Contando dias acima da média
+        const diasAcimaMedia = faturamentoFiltrado.filter(valor => valor > media).length;
+
+        document.getElementById("menor-faturamento").textContent = menor.toFixed(2);
+        document.getElementById("maior-faturamento").textContent = maior.toFixed(2);
+        document.getElementById("dias-acima-media").textContent = diasAcimaMedia;
+    }
+                </pre>
+            </section>
+
+            <!-- Exercício 4: Percentual de representação por estado -->
+            <section>
+                <h2>Exercício 4</h2>
+                <p>
+                    <strong>Pergunta:</strong> Dado o valor de faturamento mensal de uma distribuidora, detalhado por estado:
+                    <ul>
+                        <li>SP – R$67.836,43</li>
+                        <li>RJ – R$36.678,66</li>
+                        <li>MG – R$29.229,88</li>
+                        <li>ES – R$27.165,48</li>
+                        <li>Outros – R$19.849,53</li>
+                    </ul>
+                    Escreva um programa onde calcule o percentual de representação que cada estado teve dentro do valor total mensal da distribuidora.
+                </p>
+                <p>
+                    <strong>Resolução:</strong>
+                    <ul id="percentuais-estados"></ul>
+                </p>
+                <button onclick="mostrarCodigo('codigo-ex4')">Mostrar Código</button>
+                <pre id="codigo-ex4" class="codigo" style="display: none;">
+    function calcularPercentuais() {
+        const faturamentoEstados = {
+            SP: 67836.43,
+            RJ: 36678.66,
+            MG: 29229.88,
+            ES: 27165.48,
+            Outros: 19849.53
+        };
+
+        const total = Object.values(faturamentoEstados).reduce((acc, val) => acc + val, 0);
+
+        const percentuais = Object.entries(faturamentoEstados).map(([estado, valor]) => {
+            const percentual = ((valor / total) * 100).toFixed(2);
+            return `<li>${estado}: ${percentual}%</li>`;
+        }).join("");
+
+        document.getElementById("percentuais-estados").innerHTML = percentuais;
+    }
+                </pre>
+            </section>
+
+            <!-- Exercício 5: Inversão de uma string -->
+            <section>
+                <h2>Exercício 5</h2>
+                <p>
+                    <strong>Pergunta:</strong> Escreva um programa que inverta os caracteres de uma string.
+                </p>
+                <p>
+                    <strong>Resolução:</strong>
+                    <label for="string-inversao">Informe uma string:</label>
+                    <input type="text" id="string-inversao" placeholder="Digite uma string">
+                    <button onclick="inverterString()">Inverter</button>
+                    <span id="resultado-inversao"></span>
+                </p>
+                <button onclick="mostrarCodigo('codigo-ex5')">Mostrar Código</button>
+                <pre id="codigo-ex5" class="codigo" style="display: none;">
+    function inverterString() {
+        const string = document.getElementById("string-inversao").value;
+        let stringInvertida = "";
+
+        // Inverte a string manualmente
+        for (let i = string.length - 1; i >= 0; i--) {
+            stringInvertida += string[i];
+        }
+
+        document.getElementById("resultado-inversao").textContent = stringInvertida;
+    }
+                </pre>
+            </section>
+        </div>
+
+        <script src="script.js"></script>
+        <script>
+            // Função para mostrar/ocultar o código
+            function mostrarCodigo(id) {
+                const codigo = document.getElementById(id);
+                if (codigo.style.display === "none") {
+                    codigo.style.display = "block";
+                } else {
+                    codigo.style.display = "none";
+                }
+            }
+        </script>
+    </body>
+    </html>
